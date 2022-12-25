@@ -17,7 +17,7 @@ import cv2 as cv
     px7 px8 px9
 """
 
-img = cv.imread("images/blur.jpg")
+img = cv.imread("images/blur.jpeg")
 
 n1 = cv.blur(img, (3,3))
 n2 = cv.blur(img, (5,5))
@@ -29,7 +29,7 @@ g3 = cv.GaussianBlur(img, (7,7), 0)
 
 m1 = cv.medianBlur(img, 3)
 m2 = cv.medianBlur(img, 5)
-m3 = cv.medianblur(img, 7)
+m3 = cv.medianBlur(img, 7)
 
 cv.imshow("IMG", img)
 

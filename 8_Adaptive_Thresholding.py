@@ -4,42 +4,41 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 img = cv.imread("images/sudoku.jpg", 0)
+img = cv.medianBlur(img, 5)
+
+ret,th1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
 
 """
-Thresholding Nedir ?
-Gri bir görüntüyü piksellerin 0 ile 255 olduğu ikili bir görüntüye dönüştürmeye çalımaktır. Aşağıda ki kod OpenCV
-kütüphanesine bulunan farklı threshold methodlarını görselleştriyor. Kodu çalıştırarak bu 5 threashold methodunu
-daha iyi inceleyebilirsiniz.
+Simple Thresholdingden Farkı Ne?
+Simple Thresholding tüm pikseller üzerinde aynı eşik değer ile işlem yapılıyor. Adaptive Thresholding de ise küçük bir
+bölgedeki bir pikselin eşiği alınıyor, gruplandırma oluyor.
 
-Kod Üzerinde Nasıl Çalışır ?
-Bu kodda OpenCV ye ait simple thresholding methodlarını inceleyeceğiz. Simple thresholding methodları 2 çıktı döndürür.
-Bunlardan ilki eşik değer ikincisi ise eşik değer uygulanmış resimdir. Thresholdin kullanmadan önce yapılması gereken
-ilk şey resimleri gray scale formuna yani siyah-beyaz haline döndürmeliyiz. Sonrasında aşağıda da gördüğünüz seçenekler
-arasından sizn resiminiz için en iyi çalışanı seçerek işleminize devam edebilirsiniz.
-
-Parametreleri
+Parametreler
 - kaynak resim
-- eşik değer (belirtilen değerin altında kalan pikseller 0'a yuvarlanır)
-- maksimum değer (belirtilen eşiğin üstünde ise yuvarlanmasını istediğiniz piksel değeri)
-- kullanılacak thresh methodu (THRESH_BINARY, THRESH_BINARY_INV, THRESH_TRUNC, THRESH_TOZERO, THRESH_TOZERO_INV)
+- max value
+- adaptive threshold methodu (ADAPTIVE_THRESH_MEAN_C, ADAPTIVE_THRESH_GAUSSIAN_C)
+- kullanılacak thresh methodu (THRESH_BINARY)
+- küçük bölgelerin eni
+- küçük bölgelerin boyu
 """
+
 
 img = cv.resize(img, (500,500))
 
-# Eğer piksel değerleri 127'nin altında ise siyah(0) üstünde ise beyaz (255) değerine eşitlenecek
-ret,thresh1 = cv.threshold(img,127,255,cv.THRESH_BINARY)
-ret,thresh2 = cv.threshold(img,127,255,cv.THRESH_BINARY_INV)
-ret,thresh3 = cv.threshold(img,127,255,cv.THRESH_TRUNC)
-ret,thresh4 = cv.threshold(img,127,255,cv.THRESH_TOZERO)
-ret,thresh5 = cv.threshold(img,127,255,cv.THRESH_TOZERO_INV)
+th2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 11,2)
+th3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11,2)
 
-#Buradaki ret değişkeni
+cv.imshow("0", img)
+cv.imshow("1", th2)
+cv.imshow("2", th3)
+cv.waitKey(0)
 
-titles = ['Original Image','BINARY','BINARY_INV','TRUNC','TOZERO','TOZERO_INV']
-images = [img, thresh1, thresh2, thresh3, thresh4, thresh5]
-
-for i in range(6):
-    plt.subplot(1,6,i+1),plt.imshow(images[i],'gray',vmin=0,vmax=255)
-    plt.title(titles[i])
-    plt.xticks([]),plt.yticks([])
-plt.show()
+#Sonuçlar
+#titles = ['Original Image', 'Global Thresholding (v = 127)',
+#            'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
+#images = [img, th1, th2, th3]
+#for i in range(4):
+#    plt.subplot(2,2,i+1),plt.imshow(images[i],'gray')
+#    plt.title(titles[i])
+#    plt.xticks([]),plt.yticks([])
+#plt.show()

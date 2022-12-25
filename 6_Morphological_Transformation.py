@@ -23,7 +23,7 @@ kaparmak için kullanışlıdır
 farktır
 """
 
-img = cv.imread("image/base.py")
+img = cv.imread("image/base.py", 0)
 kernel = np.ones((5,5),np.uint8)
 
 #1

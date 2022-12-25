@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-img = cv.imread("sudoku.jpg", 0)
+img = cv.imread("images/sudoku.jpg", 0)
 
 """
 Thresholding Nedir ?
